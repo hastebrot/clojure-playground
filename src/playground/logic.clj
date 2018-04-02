@@ -4,6 +4,8 @@
   (:use [clojure.core.match :only [match]])
   (:use [clojure.test]))
 
+;; peano numbers.
+;; n := z | (s n)
 (defn peano° [n]
   (conde
     [(== n 'z)]
@@ -12,13 +14,13 @@
             (peano° n-1)
             )]))
 
-(run* [q] (== q true))
+(run* [q] (== q true))                                      ;;=> (true)
 
-(run* [q] (peano° 'z))
+(run* [q] (peano° 'z))                                      ;;=> (_0)
 
-(run* [q] (peano° '(s z)))
+(run* [q] (peano° '(s z)))                                  ;;=> (_0)
 
-(run* [q] (peano° 1))
+(run* [q] (peano° 1))                                       ;;=> ()
 
 (run 10 [q] (peano° q))
 
