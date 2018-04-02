@@ -1,14 +1,20 @@
 # clojure-playground
 
-A Clojure library designed to ... well, that part is up to you.
+> Code examples for the Clojure programming language.
 
 ## Usage
 
-FIXME
+**Keybindings for Visual Studio Code:**
+
+- `shift+cmd+k` &mdash; `paredit.slurpSexpForward`
+- `shift+cmd+j` &mdash; `paredit.barfSexpForward`
+
+## Dependencies
+
+- https://github.com/clojure/core.logic
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2018 Benjamin Gudehus
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
