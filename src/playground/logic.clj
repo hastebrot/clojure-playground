@@ -10,14 +10,13 @@
 ;; n := z | (s n)
 (defn peano° [n]
   (conde
-    [(== n 'z)]
+    [(== n 'zero)]
     [(fresh [n-1]
-            (== n `(~'s ~n-1))
-            (peano° n-1)
-            )]))
+            (== n `(~'succ ~n-1))
+            (peano° n-1))]))
 
-(run* [q] (peano° 'z))                                      ;;=> (_0)
-(run* [q] (peano° '(s z)))                                  ;;=> (_0)
+(run* [q] (peano° 'zero))                                   ;;=> (_0)
+(run* [q] (peano° '(succ zero)))                            ;;=> (_0)
 (run* [q] (peano° 1))                                       ;;=> ()
 
 (run 10 [q] (peano° q))
@@ -27,30 +26,26 @@
 ;; n1 + n2 = n3 <=> (s n1) + n2 = (s n3)
 (defn plus [n1 n2]
   (match [n1]
-         ['z] n2
-         [(['s n1-1] :seq)] `(~'s ~(plus n1-1 n2))
-         ))
+         ['zero] n2
+         [(['succ n1-1] :seq)] `(~'succ ~(plus n1-1 n2))))
 
-(plus 'z '(s z))                                            ;;=> (s z)
-(plus '(s z) '(s z))                                        ;;=> (s (s z))
-(plus '(s (s z)) '(s z))                                    ;;=> (s ((s (s z)))
+(plus 'zero '(succ zero))                                   ;;=> (succ zero)
+(plus '(succ zero) '(succ zero))                            ;;=> (succ (succ zeo))
+(plus '(succ (succ zero)) '(succ zero))                     ;;=> (succ (succ (succ zero)))
 
 ;; peano number plus relation in core.logic.
 (defn plus° [n1 n2 n3]
   (conde
-    [(== n1 'z) (== n2 n3)]
+    [(== n1 'zero) (== n2 n3)]
     [(fresh [n1-1 n3-1]
-            (== n1 `(~'s ~n1-1))
-            (== n3 `(~'s ~n3-1))
-            (plus° n1-1 n2 n3-1)
-            )]
-    ))
+            (== n1 `(~'succ ~n1-1))
+            (== n3 `(~'succ ~n3-1))
+            (plus° n1-1 n2 n3-1))]))
 
-(run* [q] (plus° 'z '(s z) q))                              ;;=> ((s z))))
-(run* [q] (plus° q '(s z) '(s (s z))))                      ;;=> ((s z))))
+(run* [q] (plus° 'zero '(succ zero) q))                     ;;=> ((succ zero))))
+(run* [q] (plus° q '(succ zero) '(succ (succ zero))))       ;;=> ((succ zero))))
 
 (run 10 [q] (fresh [a b c]
                    (== q [a b c])
-                   (plus° a b c)
-                   ))
+                   (plus° a b c)))
 
